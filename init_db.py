@@ -15,10 +15,11 @@ def init_db():
     conn = psycopg2.connect(dsn)
     cur = conn.cursor()
     # SQLを用意
-    with open("schema.sql", encoding="UTF-8") as f:
+    with open('schema.sql', encoding="utf-8") as f:
         sql = f.read()
         # SQLを実行
         cur.execute(sql)
+
     # 実行状態を保存
     conn.commit()
     # コネクションを閉じる
@@ -33,9 +34,9 @@ def register_user(name, age):
     conn = psycopg2.connect(dsn)
     cur = conn.cursor()
     # SQLを用意
-    sql = f"INSERT INTO users (name, age) VALUES (%(name)s, %(age)s)"
+    sql = "INSERT INTO users (name, age) VALUES (%(name)s, %(age)s)"
     # SQLを実行
-    cur.execute(sql, {"name": name, "age": age})
+    cur.execute(sql, {'name': name, 'age': age})
     # 実行状態を保存
     conn.commit()
     # コネクションを閉じる
@@ -46,8 +47,8 @@ def all_users():
     dsn = os.environ.get('DATABASE_URL')
     conn = psycopg2.connect(dsn)
     cur = conn.cursor()
-    # すべてのユーザ情報を取得
-    sql = f"SELECT * FROM users;"
+    # すべてのユーザー情報を取得
+    sql = "SELECT * FROM users;"
     cur.execute(sql)
     users = cur.fetchall()
     conn.commit()
@@ -60,11 +61,16 @@ def main():
 
     name = 'Bob'
     age = 19
-
     register_user(name, age)
 
     users = all_users()
     print(users)
+
+    # command = input('どんな操作?')
+    # if command == '1':
+    #     name = input('name?')
+    #     age = input('age?')
+    #     register_user(name, age)
 
 
 if __name__ == '__main__':
